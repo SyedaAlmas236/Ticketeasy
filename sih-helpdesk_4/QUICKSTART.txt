@@ -1,0 +1,41 @@
+"""
+Quick Start Guide - SIH Helpdesk Application
+=============================================
+
+STEP 1: Install Dependencies
+-----------------------------
+pip install flask flask-cors flask-sqlalchemy sendgrid apscheduler openai redis pydantic
+
+STEP 2: Start the Application
+------------------------------
+python app.py
+
+STEP 3: Access the Application
+-------------------------------
+Open browser: http://127.0.0.1:5000
+
+STEP 4: Login/Register
+----------------------
+- Landing Page -> "Create Account" -> Choose Employee or Agent
+- Or use "Login" if account exists
+
+TROUBLESHOOTING
+---------------
+If you see Unicode errors:
+  set PYTHONIOENCODING=utf-8 && python app.py
+
+If port 5000 is busy:
+  Change port in app.py line 530: app.run(port=5001)
+
+If database errors:
+  Delete instance/sih_helpdesk.db and restart
+
+FEATURES
+--------
+✓ Employee: Raise tickets, view history
+✓ Agent: Manage assigned tickets, add remarks
+✓ Manager: View all department tickets
+✓ Auto-routing to least-loaded agent
+✓ AI-powered ticket classification
+✓ Email notifications via SendGrid
+"""

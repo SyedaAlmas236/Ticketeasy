@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  .auth-wrap {
+    max-width: 780px;
+    margin: 34px auto;
+    padding: 20px
+  }
+
+  .auth-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 26px;
+    border: 1px solid #e8eef7;
+    box-shadow: var(--shadow)
+  }
+
+  .tabs {
+    display: flex;
+    gap: 22px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e8eef7;
+    padding-bottom: 10px
+  }
+
+  .tabs a {
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--muted)
+  }
+
+  .tabs a.active {
+    color: var(--blue);
+    border-bottom: 3px solid var(--turq)
+  }
+
+  label {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 14px;
+    display: block
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #eef3fb;
+    margin-top: 4px
+  }
+
+  button.btn-submit {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background: linear-gradient(90deg, var(--blue), var(--turq));
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 15px
+  }
+</style>
+
+<div class="auth-wrap">
+  <div class="auth-card">
+
+    <div class="tabs">
+      <a href="{{ url_for('auth', tab='login') }}" class="{% if tab=='login' %}active{% endif %}">Login</a>
+      <a href="{{ url_for('auth', tab='reset') }}" class="{% if tab=='reset' %}active{% endif %}">Reset Password</a>
+    </div>
+
+    {% if tab == 'login' %}
+    <h2>Login</h2>
+    <form method="post" action="{{ url_for('login') }}">
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>Password</label>
+      <input type="password" name="password" required>
+
+      <button class="btn-submit">Login</button>
+
+      <div style="margin-top:12px;color:var(--muted)">
+        No account?
+        <a href="{{ url_for('register_employee') }}">Employee</a> or
+        <a href="{{ url_for('register_agent') }}">Agent</a>
+      </div>
+    </form>
+    {% endif %}
+
+    {% if tab == 'reset' %}
+    <h2>Reset Password</h2>
+    <form method="post" action="{{ url_for('reset') }}">
+      <label>Email</label>
+      <input type="email" name="email" required>
+      <button class="btn-submit">Send Reset Link</button>
+    </form>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

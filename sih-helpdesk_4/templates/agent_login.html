@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  .center {
+    max-width: 480px;
+    margin: 40px auto;
+    padding: 20px
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 22px;
+    border: 1px solid #eef3fb;
+    box-shadow: var(--shadow)
+  }
+
+  label {
+    display: block;
+    margin-top: 12px;
+    color: var(--muted)
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #eef3fb;
+    margin-top: 6px
+  }
+
+  .btn {
+    margin-top: 18px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 0;
+    background: linear-gradient(90deg, var(--blue), var(--turq));
+    color: white;
+    font-weight: 800;
+    width: 100%
+  }
+</style>
+
+<div class="center">
+  <div class="card">
+    <h2 style="margin-bottom:10px;font-weight:800;font-size:22px;color:var(--turq)">Agent Login</h2>
+
+    <form method="post" action="/agent/login">
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>Password</label>
+      <input type="password" name="password" required>
+
+      <button class="btn">Login</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

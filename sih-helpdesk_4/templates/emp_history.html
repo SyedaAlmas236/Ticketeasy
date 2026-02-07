@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket History</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url_for('employee_home') }}">← Back to Dashboard</a>
+        <span class="text-white">{{ user.name }}</span>
+    </div>
+</nav>
+
+<div class="container">
+    <h3 class="mb-4">Full Ticket History</h3>
+    
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4">ID</th>
+                        <th>Subject</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th class="text-end pe-4">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ticket in tickets %}
+                    <tr>
+                        <td class="ps-4 fw-bold">#{{ ticket.id }}</td>
+                        <td>{{ ticket.subject }}</td>
+                        <td><span class="badge bg-secondary">{{ ticket.category }}</span></td>
+                        <td>
+                            {% if ticket.status == 'open' %} <span class="badge bg-danger">Open</span>
+                            {% elif ticket.status == 'resolved' %} <span class="badge bg-success">Resolved</span>
+                            {% else %} <span class="badge bg-warning text-dark">In Progress</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ ticket.created_at.strftime('%Y-%m-%d') }}</td>
+                        <td class="text-end pe-4">
+                            <a href="{{ url_for('ticket_detail', ticket_id=ticket.id) }}" class="btn btn-sm btn-outline-primary">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

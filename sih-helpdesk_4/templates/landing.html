@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  :root {
+    --blue: #0f66d4;
+    --turq: #12b0b0;
+    --muted: #5f6b76;
+    --shadow-lg: 0 18px 40px rgba(12, 36, 80, 0.12)
+  }
+
+  .hero-wrap {
+    max-width: 1180px;
+    margin: 36px auto;
+    padding: 28px;
+    display: flex;
+    gap: 36px;
+    align-items: center;
+    flex-wrap: wrap
+  }
+
+  .hero-left {
+    flex: 1;
+    min-width: 300px
+  }
+
+  .kicker-pill {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--turq), var(--blue));
+    color: #fff;
+    font-weight: 800;
+    font-size: 13px
+  }
+
+  .hero-title {
+    font-size: 40px;
+    line-height: 1.05;
+    margin: 16px 0;
+    font-weight: 800;
+    color: #07122a
+  }
+
+  .hero-sub {
+    color: var(--muted);
+    max-width: 640px;
+    margin-bottom: 18px
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap
+  }
+
+  .btn {
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-weight: 800;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px
+  }
+
+  .btn-primary {
+    background: linear-gradient(90deg, var(--blue), var(--turq));
+    color: white;
+    box-shadow: 0 10px 30px rgba(17, 86, 180, 0.12)
+  }
+
+  .btn-outline {
+    background: white;
+    color: var(--blue);
+    border: 1px solid rgba(15, 102, 212, 0.08)
+  }
+
+  .hero-right {
+    width: 420px;
+    min-width: 260px
+  }
+
+  .hero-image {
+    height: 320px;
+    border-radius: 14px;
+    background-size: cover;
+    background-position: center;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid #eef3fb;
+    overflow: hidden
+  }
+
+  @media(max-width:920px) {
+    .hero-wrap {
+      flex-direction: column
+    }
+
+    .hero-right {
+      width: 100%
+    }
+  }
+</style>
+
+<div class="hero-wrap" role="region" aria-label="Landing hero">
+  <div class="hero-left">
+    <div class="kicker-pill">Enterprise Ready</div>
+
+    <h1 class="hero-title">
+      Smarter Support, Faster Solutions.<br />
+      Let AI handle tickets while you focus on what matters most.
+    </h1>
+
+    <p class="hero-sub">
+      Aggregate tickets from GLPI, Solman, email, web forms and chat. Intelligent classification, secure routing and
+      clear SLAs — built for teams and institutions.
+    </p>
+
+    <div class="cta-row" role="group" aria-label="Primary CTAs">
+      <button id="open-create" class="btn btn-primary" aria-haspopup="dialog" aria-controls="role-modal">Create
+        account</button>
+      <a href="{{ url_for('auth', tab='login') }}" class="btn btn-outline">Login</a>
+    </div>
+  </div>
+
+  <div class="hero-right" aria-hidden="true">
+    <div class="hero-image" style="background-image:url('{{ url_for('static', filename='images/hero.png') }}')">
+    </div>
+  </div>
+
+  <!-- features -->
+  <!-- features (updated) -->
+  <div
+    style="max-width:1180px;margin:18px auto;padding:0 18px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch">
+    <!-- Multi-source ingestion -->
+    <div
+      style="background:#fff;padding:18px;border-radius:12px;border:1px solid #eef3fb;box-shadow:0 8px 24px rgba(12,36,80,0.04);min-height:120px">
+      <div style="font-weight:800;font-size:15px;margin-bottom:8px">Multi-source ingestion</div>
+      <div style="color:#5f6b76;line-height:1.45">Aggregate tickets from GLPI, Solman, IMAP/SMTP, web forms and chat
+        into a single searchable stream — no manual imports, no missed requests.</div>
+    </div>
+
+    <!-- NLP classification (expanded copy) -->
+    <div
+      style="background:#fff;padding:18px;border-radius:12px;border:1px solid #eef3fb;box-shadow:0 8px 24px rgba(12,36,80,0.04);min-height:120px">
+      <div style="font-weight:800;font-size:15px;margin-bottom:8px">NLP-powered classification & prioritization</div>
+      <div style="color:#5f6b76;line-height:1.45">
+        Automatically understand ticket intent and extract entities (device, location, error codes). Tickets are
+        normalized, auto-tagged and priority-scored so the correct team receives enriched tickets — faster routing,
+        smarter SLAs, and continuous improvement from historical data.
+      </div>
+    </div>
+
+    <!-- RBAC & Audit -->
+    <div
+      style="background:#fff;padding:18px;border-radius:12px;border:1px solid #eef3fb;box-shadow:0 8px 24px rgba(12,36,80,0.04);min-height:120px">
+      <div style="font-weight:800;font-size:15px;margin-bottom:8px">RBAC & Audit</div>
+      <div style="color:#5f6b76;line-height:1.45">Granular role-based access control with complete audit trails and
+        change history — secure operations and clear accountability for compliance.</div>
+    </div>
+  </div>
+
+
+  <!-- Modal (glass style) -->
+  <div id="modal-backdrop"
+    style="display:none;position:fixed;inset:0;background:linear-gradient(180deg, rgba(2,6,23,0.45), rgba(2,6,23,0.45));align-items:center;justify-content:center;z-index:1200;padding:20px"
+    role="dialog" aria-modal="true" aria-hidden="true">
+    <div
+      style="width:100%;max-width:520px;border-radius:14px;background:rgba(255,255,255,0.72);backdrop-filter: blur(8px);border:1px solid rgba(255,255,255,0.35);box-shadow:0 18px 40px rgba(12,36,80,0.12);padding:22px;color:#07122a">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <div>
+          <div style="font-weight:800;font-size:20px">Create an account</div>
+          <div style="color:var(--muted);font-size:14px">Choose the role for your new account</div>
+        </div>
+        <button id="close-modal" aria-label="Close"
+          style="background:transparent;border:0;font-size:20px;cursor:pointer">✕</button>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:18px">
+        <div tabindex="0" role="button" data-role="employee"
+          style="flex:1;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.80));border:1px solid rgba(15,102,212,0.06);cursor:pointer">
+          <div style="font-weight:800">Employee</div>
+          <div style="color:var(--muted);margin-top:8px">Create tickets, track status and use chatbot help.</div>
+        </div>
+        <div tabindex="0" role="button" data-role="agent"
+          style="flex:1;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.80));border:1px solid rgba(15,102,212,0.06);cursor:pointer">
+          <div style="font-weight:800">Agent</div>
+          <div style="color:var(--muted);margin-top:8px">Handle maintenance, IT requests, and resolve tickets.</div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;margin-top:18px">
+        <button id="cancel-modal"
+          style="background:transparent;border:0;color:var(--muted);font-weight:700;padding:8px 12px;border-radius:8px;cursor:pointer">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const openBtn = document.getElementById('open-create');
+      const backdrop = document.getElementById('modal-backdrop');
+      const closeBtn = document.getElementById('close-modal');
+      const cancelBtn = document.getElementById('cancel-modal');
+
+      function showModal() { backdrop.style.display = 'flex'; backdrop.setAttribute('aria-hidden', 'false'); }
+      function hideModal() { backdrop.style.display = 'none'; backdrop.setAttribute('aria-hidden', 'true'); openBtn.focus(); }
+
+      openBtn.addEventListener('click', showModal);
+      closeBtn.addEventListener('click', hideModal);
+      cancelBtn.addEventListener('click', hideModal);
+      backdrop.addEventListener('click', (e) => { if (e.target === backdrop) hideModal(); });
+
+      backdrop.querySelectorAll('[data-role]').forEach(el => {
+        el.addEventListener('click', () => {
+          const role = el.getAttribute('data-role');
+          const url = new URL(window.location.origin + '{{ url_for("auth") }}');
+          url.searchParams.set('tab', 'register');
+          url.searchParams.set('role', role);
+          window.location.href = url.toString();
+        });
+        el.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            el.click();
+          }
+        });
+      });
+    })();
+  </script>
+  {% endblock %}

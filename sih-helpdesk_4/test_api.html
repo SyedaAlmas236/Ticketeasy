@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Helpdesk API - Test Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .panel {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .panel h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 15px;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.02);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .response {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .response pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        .success {
+            border-left: 4px solid #10b981;
+            background: #d1fae5;
+        }
+
+        .error {
+            border-left: 4px solid #ef4444;
+            background: #fee2e2;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎫 Smart Helpdesk REST API</h1>
+            <p>Test API endpoints directly from your browser</p>
+        </div>
+
+        <div class="content">
+            <!-- Create Ticket Form -->
+            <div class="panel">
+                <h2>📝 Create New Ticket</h2>
+                <form id="createTicketForm">
+                    <label>Title *</label>
+                    <input type="text" id="title" placeholder="e.g., VPN not connecting" required>
+
+                    <label>Description *</label>
+                    <textarea id="description" placeholder="Detailed description of the issue..." required></textarea>
+
+                    <label>Source *</label>
+                    <select id="source" required>
+                        <option value="web">Web</option>
+                        <option value="chatbot">Chatbot</option>
+                        <option value="email">Email</option>
+                        <option value="glpi">GLPI</option>
+                        <option value="solman">SOLMAN</option>
+                    </select>
+
+                    <label>Urgency *</label>
+                    <select id="urgency" required>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        <option value="Critical">Critical</option>
+                    </select>
+
+                    <button type="submit">Create Ticket</button>
+                </form>
+
+                <div id="createResponse" class="response" style="display:none;">
+                    <pre id="createOutput"></pre>
+                </div>
+            </div>
+
+            <!-- Get Ticket Form -->
+            <div class="panel">
+                <h2>🔍 Get Ticket by ID</h2>
+                <form id="getTicketForm">
+                    <label>Ticket ID</label>
+                    <input type="text" id="ticketId" placeholder="e.g., IT-2025-001">
+
+                    <button type="submit">Fetch Ticket</button>
+                </form>
+
+                <div id="getResponse" class="response" style="display:none;">
+                    <pre id="getOutput"></pre>
+                </div>
+
+                <h2 style="margin-top: 30px;">📋 List All Tickets</h2>
+                <form id="listTicketsForm">
+                    <label>Filter by Status (optional)</label>
+                    <select id="filterStatus">
+                        <option value="">All</option>
+                        <option value="open">Open</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="resolved">Resolved</option>
+                    </select>
+
+                    <button type="submit">List Tickets</button>
+                </form>
+
+                <div id="listResponse" class="response" style="display:none;">
+                    <pre id="listOutput"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://127.0.0.1:8000/api';
+
+        // Create Ticket
+        document.getElementById('createTicketForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const payload = {
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                source: document.getElementById('source').value,
+                urgency: document.getElementById('urgency').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/tickets`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                document.getElementById('createOutput').textContent = JSON.stringify(data, null, 2);
+                document.getElementById('createResponse').style.display = 'block';
+                document.getElementById('createResponse').className = response.ok ? 'response success' : 'response error';
+
+                if (response.ok) {
+                    e.target.reset();
+                }
+            } catch (error) {
+                document.getElementById('createOutput').textContent = `Error: ${error.message}`;
+                document.getElementById('createResponse').style.display = 'block';
+                document.getElementById('createResponse').className = 'response error';
+            }
+        });
+
+        // Get Ticket
+        document.getElementById('getTicketForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const ticketId = document.getElementById('ticketId').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/tickets/${ticketId}`);
+                const data = await response.json();
+
+                document.getElementById('getOutput').textContent = JSON.stringify(data, null, 2);
+                document.getElementById('getResponse').style.display = 'block';
+                document.getElementById('getResponse').className = response.ok ? 'response success' : 'response error';
+            } catch (error) {
+                document.getElementById('getOutput').textContent = `Error: ${error.message}`;
+                document.getElementById('getResponse').style.display = 'block';
+                document.getElementById('getResponse').className = 'response error';
+            }
+        });
+
+        // List Tickets
+        document.getElementById('listTicketsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const status = document.getElementById('filterStatus').value;
+            const url = status ? `${API_BASE}/tickets?status=${status}` : `${API_BASE}/tickets`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                document.getElementById('listOutput').textContent = JSON.stringify(data, null, 2);
+                document.getElementById('listResponse').style.display = 'block';
+                document.getElementById('listResponse').className = response.ok ? 'response success' : 'response error';
+            } catch (error) {
+                document.getElementById('listOutput').textContent = `Error: ${error.message}`;
+                document.getElementById('listResponse').style.display = 'block';
+                document.getElementById('listResponse').className = 'response error';
+            }
+        });
+    </script>
+</body>
+
+</html>

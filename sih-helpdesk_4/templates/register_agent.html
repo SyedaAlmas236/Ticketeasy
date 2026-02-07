@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<div class="page" style="max-width:700px;margin:24px auto">
+  <h2>Register New Agent</h2>
+  <p style="color:#666; margin-bottom:20px">Create an account for a specific department head.</p>
+
+  <form method="post" action="{{ url_for('register_agent') }}">
+    <div style="margin-bottom:12px">
+      <label><strong>Name</strong></label>
+      <input name="name" required class="form-input"
+        style="width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef7">
+    </div>
+
+    <div style="margin-bottom:12px">
+      <label><strong>Email</strong></label>
+      <input name="email" type="email" required class="form-input"
+        style="width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef7">
+    </div>
+
+    <div style="display:flex;gap:12px;margin-bottom:12px">
+      <div style="flex:1">
+        <label><strong>Password</strong></label>
+        <input name="password" type="password" required class="form-input"
+          style="width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef7">
+      </div>
+      <div style="flex:1">
+        <label><strong>Confirm</strong></label>
+        <input name="confirm_password" type="password" required class="form-input"
+          style="width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef7">
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px">
+      <label><strong>Assign Department</strong></label>
+      <p style="font-size:12px; color:#888; margin-bottom:8px">This agent will strictly handle tickets for:</p>
+
+      <select name="category_id" required
+        style="width:100%;padding:12px;border-radius:8px;border:1px solid #e6eef7; background:#fff">
+        <option value="" disabled selected>Select a Department...</option>
+        {% for cat in categories %}
+        <option value="{{ cat.id }}">{{ cat.name|capitalize }} Department</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <button type="submit" class="btn edit"
+        style="padding:10px 18px;border-radius:10px; background: linear-gradient(90deg, #0f66d4, #12b0b0); color:white; border:none; font-weight:bold;">Create
+        Agent Account</button>
+      <a href="{{ url_for('agent_login') }}" class="btn view"
+        style="padding:10px 18px;border-radius:10px;margin-left:8px">Back to Login</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

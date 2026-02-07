@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Login — TicketEasy</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#0f66d4;--turq:#12b0b0;--muted:#6f7a85;--shadow:0 12px 30px rgba(10,20,40,0.12);font-family:'Inter',system-ui,Arial}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f6faff;display:flex;justify-content:center;align-items:center;min-height:100vh}
+.card{width:420px;background:white;padding:26px;border-radius:14px;border:1px solid #eef3fb;box-shadow:var(--shadow)}
+.role-toggle{display:flex;background:#eef3fb;border-radius:40px;padding:6px;width:max-content;margin:0 auto 18px}
+.role-btn{padding:8px 20px;border-radius:40px;border:none;cursor:pointer;font-weight:700;font-size:14px;background:transparent;color:var(--muted)}
+.role-btn.active{background:linear-gradient(90deg,var(--blue),var(--turq));color:white;box-shadow:0 8px 20px rgba(0,0,0,0.15)}
+label{font-size:14px;color:var(--muted);margin-top:14px;display:block}
+input,select{width:100%;padding:12px;font-size:15px;border-radius:10px;border:1px solid #e2e7f0;margin-top:4px}
+button.login-btn{width:100%;margin-top:18px;padding:12px;border-radius:10px;background:linear-gradient(90deg,var(--blue),var(--turq));border:none;color:white;font-weight:800;cursor:pointer}
+.small-links{text-align:center;margin-top:14px;font-size:14px}
+.small-links a{color:var(--blue);font-weight:700;text-decoration:none}
+</style>
+</head>
+<body>
+  <div class="card">
+    <h2 style="margin-bottom:10px;font-weight:800;font-size:22px">Login</h2>
+
+    <div class="role-toggle" role="tablist">
+      <button class="role-btn active" data-role="employee">Employee</button>
+      <button class="role-btn" data-role="admin">Admin</button>
+    </div>
+
+    <form method="post" id="login-form" action="/login">
+      <input type="hidden" name="role" id="role-field" value="employee">
+
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>Password</label>
+      <input type="password" name="password" required>
+
+      <div id="employee-role-wrap">
+        <label>Employee Role</label>
+        <select name="employee_role" required>
+          <option value="">Select role</option>
+          <option>General Employee</option>
+          <option>Intern</option>
+          <option>Operator</option>
+          <option>Field Engineer</option>
+          <option>IT Support Staff</option>
+          <option>HR Staff</option>
+          <option>Finance Team</option>
+        </select>
+      </div>
+
+      <button class="login-btn" type="submit">Login</button>
+
+      <div class="small-links">
+        <a href="{{ url_for('auth', tab='reset') }}">Forgot Password?</a><br>
+        Don't have an account? <a href="{{ url_for('register_employee') }}">Create Employee</a> • <a href="{{ url_for('register_admin') }}">Create Admin</a>
+      </div>
+    </form>
+  </div>
+
+<script>
+const buttons = document.querySelectorAll('.role-btn');
+const form = document.getElementById('login-form');
+const roleField = document.getElementById('role-field');
+const empWrap = document.getElementById('employee-role-wrap');
+
+buttons.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    buttons.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const role = btn.dataset.role;
+    roleField.value = role;
+    if(role === "admin"){
+      form.action = "/admin/login";
+      empWrap.style.display="none";
+    } else {
+      form.action = "/login";
+      empWrap.style.display="block";
+    }
+  });
+});
+</script>
+</body>
+</html>
